@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ulang Tahun</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: pink;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    .page {
+      display: none;
+      padding: 20px;
+    }
+    .active {
+      display: block;
+    }
+    .big-text {
+      font-size: 3em;
+      font-weight: bold;
+      margin-top: 100px;
+      text-shadow: 0 0 20px white, 0 0 30px yellow;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1.1em;
+      background-color: white;
+      color: hotpink;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .falling-flowers {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://media.giphy.com/media/3o7abB06u9bNzA8lu8/giphy.gif') center/cover no-repeat;
+      z-index: -1;
+      opacity: 0.6;
+    }
+    img {
+      max-width: 90%;
+      margin-top: 30px;
+      border-radius: 15px;
+    }
+    .text-container {
+      font-size: 1.5em;
+      line-height: 1.6em;
+      text-shadow: 0 0 10px #fff, 0 0 20px #f0f, 0 0 30px #ff0;
+      margin-top: 50px;
+      white-space: pre-line;
+    }
+    .music-controls {
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Musik -->
+  <audio id="bg-music" loop>
+    <source src="https://files.catbox.moe/0eos0y.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="fireworks"></div>
+
+  <!-- Halaman 1 -->
+  <div class="page active" id="page1">
+    <div class="big-text">Selamat Ulang Tahun</div>
+    <button onclick="nextPage()">Selanjutnya</button>
+  </div>
+
+  <!-- Halaman 2 -->
+  <div class="page" id="page2">
+    <canvas class="falling-flowers" id="flowers"></canvas>
+    <div class="text-container">
+      Selamat Ulang Tahun 🎉
+      Selamat ulangtahun Ibi Sri,
+      Dilancarkan rezekinya,
+      Dipanjangkan umurnya,
+      Selalu diberi kesehatan.
+    </div>
+    <button onclick="nextPage()">Selanjutnya</button>
+  </div>
+
+  <!-- Halaman 3 -->
+  <div class="page" id="page3">
+    <div class="big-text" style="font-size: 2.5em;">SELAMAT ULANG TAHUN SRI WAHYUNI</div>
+    <button onclick="nextPage()">Selanjutnya</button>
+  </div>
+
+  <!-- Halaman 4 -->
+  <div class="page" id="page4">
+    <img src="https://files.catbox.moe/5y0la1.jpg" alt="Kado berisi boneka">
+    <div class="big-text" style="font-size: 1.5em;">Selamat Ulang Tahun Sri Wahyuni</div>
+  </div>
+
+  <!-- Kontrol Musik -->
+  <div class="music-controls">
+    <button onclick="playMusic()">▶️ Play Musik</button>
+    <button onclick="stopMusic()">⏹ Stop Musik</button>
+  </div>
+
+  <script>
+    let currentPage = 1;
+    function nextPage() {
+      document.getElementById(`page${currentPage}`).classList.remove('active');
+      currentPage++;
+      document.getElementById(`page${currentPage}`).classList.add('active');
+    }
+
+    // Kontrol musik
+    const music = document.getElementById("bg-music");
+    function playMusic() { music.play(); }
+    function stopMusic() { music.pause(); music.currentTime = 0; }
+
+    // Bunga jatuh animasi
+    const canvas = document.getElementById("flowers");
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      let W = window.innerWidth;
+      let H = window.innerHeight;
+      canvas.width = W;
+      canvas.height = H;
+
+      let petals = [];
+      for (let i = 0; i < 100; i++) {
+        petals.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 5 + 2,
+          d: Math.random() + 1
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = "rgba(255,182,193,0.7)";
+        ctx.beginPath();
+        for (let i = 0; i < petals.length; i++) {
+          let p = petals[i];
+          ctx.moveTo(p.x, p.y);
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+        update();
+      }
+
+      function update() {
+        for (let i = 0; i < petals.length; i++) {
+          let p = petals[i];
+          p.y += p.d;
+          if (p.y > H) {
+            p.y = 0;
+            p.x = Math.random() * W;
+          }
+        }
+      }
+
+      setInterval(draw, 33);
+    }
+  </script>
+</body>
+</html>
