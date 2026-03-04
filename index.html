@@ -1,181 +1,197 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ulang Tahun</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Arial', sans-serif;
-      background: pink;
-      color: white;
-      text-align: center;
-      overflow-x: hidden;
-    }
-    .page {
-      display: none;
-      padding: 20px;
-    }
-    .active {
-      display: block;
-    }
-    .big-text {
-      font-size: 3em;
-      font-weight: bold;
-      margin-top: 100px;
-      text-shadow: 0 0 20px white, 0 0 30px yellow;
-    }
-    button {
-      margin-top: 20px;
-      padding: 12px 25px;
-      font-size: 1.1em;
-      background-color: white;
-      color: hotpink;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .falling-flowers {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-    .fireworks {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://media.giphy.com/media/3o7abB06u9bNzA8lu8/giphy.gif') center/cover no-repeat;
-      z-index: -1;
-      opacity: 0.6;
-    }
-    img {
-      max-width: 90%;
-      margin-top: 30px;
-      border-radius: 15px;
-    }
-    .text-container {
-      font-size: 1.5em;
-      line-height: 1.6em;
-      text-shadow: 0 0 10px #fff, 0 0 20px #f0f, 0 0 30px #ff0;
-      margin-top: 50px;
-      white-space: pre-line;
-    }
-    .music-controls {
-      margin: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Isma ❤️</title>
+    <style>
+        :root {
+            --pink-deep: #ff85a2;
+            --pink-light: #ffafbd;
+            --pink-bg: #ffc3a0;
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+            user-select: none;
+        }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.4) 0%, transparent 80%);
+            pointer-events: none; z-index: 1;
+        }
+
+        .falling {
+            position: absolute; top: -50px;
+            pointer-events: none; z-index: 5;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            position: fixed; width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 10; transition: all 0.8s ease;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 30px; border-radius: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.2);
+            text-align: center; max-width: 400px; width: 85%;
+        }
+
+        .btn-style {
+            padding: 12px 30px; font-size: 1rem; background: var(--pink-deep);
+            color: white; border: none; border-radius: 50px; cursor: pointer;
+            font-weight: bold; box-shadow: 0 5px 15px rgba(255, 133, 162, 0.4);
+            margin-top: 15px;
+        }
+
+        .hidden { display: none !important; }
+        .transparent { opacity: 0; transform: translateY(30px); pointer-events: none; }
+
+        #teks-halaman2, #teks-halaman3 {
+            font-size: 1.05rem; line-height: 1.7; color: #7d2d3f; font-weight: 500;
+        }
+
+        /* Style Rating */
+        .rating { display: flex; flex-direction: row-reverse; justify-content: center; margin: 15px 0; }
+        .rating input { display: none; }
+        .rating label { font-size: 35px; color: #fff; cursor: pointer; transition: 0.3s; }
+        .rating input:checked ~ label { color: #f1c40f; }
+        .rating label:hover, .rating label:hover ~ label { color: #f1c40f; }
+
+        textarea {
+            width: 100%; border-radius: 15px; border: 1px solid var(--pink-light);
+            padding: 10px; font-family: inherit; resize: none; background: rgba(255,255,255,0.5);
+        }
+    </style>
 </head>
-<body>
-  <!-- Musik -->
-  <audio id="bg-music" loop>
-    <source src="https://files.catbox.moe/0eos0y.mp3" type="audio/mpeg">
-  </audio>
+<body onclick="klikBunga(event)">
 
-  <div class="fireworks"></div>
+    <div class="overlay"></div>
 
-  <!-- Halaman 1 -->
-  <div class="page active" id="page1">
-    <div class="big-text">Selamat Ulang Tahun</div>
-    <button onclick="nextPage()">Selanjutnya</button>
-  </div>
+    <audio id="laguIsma" loop>
+        <source src="https://g.top4top.io/m_3715cy1ct1.mp3" type="audio/mpeg">
+    </audio>
 
-  <!-- Halaman 2 -->
-  <div class="page" id="page2">
-    <canvas class="falling-flowers" id="flowers"></canvas>
-    <div class="text-container">
-      Selamat Ulang Tahun 🎉
-      Selamat ulangtahun Ibi Sri,
-      Dilancarkan rezekinya,
-      Dipanjangkan umurnya,
-      Selalu diberi kesehatan.
+    <div id="hal1" class="container">
+        <div class="glass-card">
+            <h1 style="color: #7d2d3f;">Halo Isma ❤️</h1>
+            <p style="color: #8a4b59;">Aktifkan musiknya dulu ya...</p>
+            <button id="btnPlay" class="btn-style" style="background:white; color:var(--pink-deep); border:1px solid var(--pink-deep)" onclick="putarMusik()">🎵 PUTAR LAGU</button>
+            <button id="btnMulai" class="btn-style hidden" onclick="pindah(1, 2)">MULAI ✨</button>
+        </div>
     </div>
-    <button onclick="nextPage()">Selanjutnya</button>
-  </div>
 
-  <!-- Halaman 3 -->
-  <div class="page" id="page3">
-    <div class="big-text" style="font-size: 2.5em;">SELAMAT ULANG TAHUN SRI WAHYUNI</div>
-    <button onclick="nextPage()">Selanjutnya</button>
-  </div>
+    <div id="hal2" class="container hidden transparent">
+        <div class="glass-card">
+            <div id="teks-halaman2"></div>
+            <button id="btnLanjut2" class="btn-style hidden" onclick="pindah(2, 3)">Lanjut ❤️</button>
+        </div>
+    </div>
 
-  <!-- Halaman 4 -->
-  <div class="page" id="page4">
-    <img src="https://files.catbox.moe/5y0la1.jpg" alt="Kado berisi boneka">
-    <div class="big-text" style="font-size: 1.5em;">Selamat Ulang Tahun Sri Wahyuni</div>
-  </div>
+    <div id="hal3" class="container hidden transparent">
+        <div class="glass-card">
+            <h1 style="font-size: 3rem; margin: 0;">🌸</h1>
+            <div id="teks-halaman3"></div>
+            <button id="btnLanjut3" class="btn-style hidden" onclick="pindah(3, 4)">Beri Ulasan buat Andri ✍️</button>
+        </div>
+    </div>
 
-  <!-- Kontrol Musik -->
-  <div class="music-controls">
-    <button onclick="playMusic()">▶️ Play Musik</button>
-    <button onclick="stopMusic()">⏹ Stop Musik</button>
-  </div>
+    <div id="hal4" class="container hidden transparent">
+        <div class="glass-card">
+            <h2 style="color: #7d2d3f; margin: 0;">Rating & Ulasan</h2>
+            <p style="color: #8a4b59; font-size: 0.8rem;">Gimana menurutmu tentang buatan aku? hehe</p>
+            
+            <div class="rating">
+                <input type="radio" name="star" id="star5" value="5 Bintang"><label for="star5">★</label>
+                <input type="radio" name="star" id="star4" value="4 Bintang"><label for="star4">★</label>
+                <input type="radio" name="star" id="star3" value="3 Bintang"><label for="star3">★</label>
+                <input type="radio" name="star" id="star2" value="2 Bintang"><label for="star2">★</label>
+                <input type="radio" name="star" id="star1" value="1 Bintang"><label for="star1">★</label>
+            </div>
 
-  <script>
-    let currentPage = 1;
-    function nextPage() {
-      document.getElementById(`page${currentPage}`).classList.remove('active');
-      currentPage++;
-      document.getElementById(`page${currentPage}`).classList.add('active');
-    }
+            <textarea id="ulasan" rows="3" placeholder="Tulis ulasanmu di sini..."></textarea>
+            <button class="btn-style" onclick="kirimWA()">Kirim ke WA Andri 🚀</button>
+        </div>
+    </div>
 
-    // Kontrol musik
-    const music = document.getElementById("bg-music");
-    function playMusic() { music.play(); }
-    function stopMusic() { music.pause(); music.currentTime = 0; }
+    <script>
+        const audio = document.getElementById('laguIsma');
+        const pesan2 = "halooo ismaa selalu semangat yaa, akuu pastinya akan dukung kamuu teruss, kamuu jangan sampai lesu berlebihan, kaloo capee istirahattt, dan kalau butuh temen cerita, akuu siap menemani kamuu, yaaa mungkin kamuu butuh waktuu buat bisaa percayaa samaa akuu, owhh iyaaaa kamuuu pemenang di hatiii akuu hehehe, akuu tuhh akann tetep pilihh kamuu dan tujuan akuu tuh kamuuuu, jadiiii pemenangg nyaaa teteppppp kamuuuu hehehe i loveeee youuuu. 🌸✨";
+        const pesan3 = "maaaf jikaaa hadiahh nyaaa tidakk seberapaa hehe,sehatt sehatt yaaa kakaaa isma hehehe lovee youu wleee 😋💗";
 
-    // Bunga jatuh animasi
-    const canvas = document.getElementById("flowers");
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      let W = window.innerWidth;
-      let H = window.innerHeight;
-      canvas.width = W;
-      canvas.height = H;
-
-      let petals = [];
-      for (let i = 0; i < 100; i++) {
-        petals.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          r: Math.random() * 5 + 2,
-          d: Math.random() + 1
-        });
-      }
-
-      function draw() {
-        ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = "rgba(255,182,193,0.7)";
-        ctx.beginPath();
-        for (let i = 0; i < petals.length; i++) {
-          let p = petals[i];
-          ctx.moveTo(p.x, p.y);
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+        function putarMusik() {
+            audio.play().then(() => {
+                document.getElementById('btnPlay').classList.add('hidden');
+                document.getElementById('btnMulai').classList.remove('hidden');
+            });
         }
-        ctx.fill();
-        update();
-      }
 
-      function update() {
-        for (let i = 0; i < petals.length; i++) {
-          let p = petals[i];
-          p.y += p.d;
-          if (p.y > H) {
-            p.y = 0;
-            p.x = Math.random() * W;
-          }
+        function pindah(dari, ke) {
+            document.getElementById('hal' + dari).classList.add('transparent');
+            setTimeout(() => {
+                document.getElementById('hal' + dari).classList.add('hidden');
+                const nextHal = document.getElementById('hal' + ke);
+                nextHal.classList.remove('hidden');
+                setTimeout(() => {
+                    nextHal.classList.remove('transparent');
+                    if(ke === 2) ketikTeks('teks-halaman2', pesan2, () => document.getElementById('btnLanjut2').classList.remove('hidden'));
+                    if(ke === 3) ketikTeks('teks-halaman3', pesan3, () => document.getElementById('btnLanjut3').classList.remove('hidden'));
+                    if(ke === 2) setInterval(buatBungaOtomatis, 400);
+                }, 50);
+            }, 800);
         }
-      }
 
-      setInterval(draw, 33);
-    }
-  </script>
+        function ketikTeks(id, teks, callback) {
+            let i = 0; const target = document.getElementById(id); target.innerHTML = "";
+            function jalan() {
+                if (i < teks.length) {
+                    target.innerHTML += teks.charAt(i); i++; setTimeout(jalan, 60);
+                } else if (callback) callback();
+            }
+            jalan();
+        }
+
+        function kirimWA() {
+            const rating = document.querySelector('input[name="star"]:checked');
+            const ulasan = document.getElementById('ulasan').value;
+            const nomorWA = "6285179767495"; // Format internasional tanpa '+'
+            
+            if (!rating) { alert("Pilih bintang dulu ya Isma!"); return; }
+            
+            let pesanWA = `Halo Andri! Isma udah lihat pesannya.\n\nRating: ${rating.value}\nUlasan: ${ulasan || "-"}`;
+            window.open(`https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`, '_blank');
+        }
+
+        function buatBungaOtomatis() {
+            spawnBunga(Math.random() * window.innerWidth, -50, '🌸');
+        }
+
+        function klikBunga(e) { spawnBunga(e.clientX, e.clientY, '🌸'); }
+
+        function spawnBunga(x, y, simbol) {
+            const p = document.createElement('div');
+            p.className = 'falling'; p.innerHTML = simbol;
+            p.style.left = x + 'px'; p.style.top = y + 'px';
+            p.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            p.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 4000);
+        }
+    </script>
 </body>
 </html>
